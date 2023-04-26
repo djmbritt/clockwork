@@ -22,14 +22,15 @@ jobs:
       - rustup default stable
       - cargo build --locked
       
-      - echo Install BPG toolchain
+      - echo Installing BPG toolchain
+      - pwd
       - |
           rustup default stable
           cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
           rm -rf dependencies/*
           ./scripts/install.sh
           rustup default bpf
-          cd $GITHUB_WORKSPACE
+          cd /workspace/
           cargo update
           
       - echo install Soteria Auditor
