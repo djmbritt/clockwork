@@ -19,6 +19,8 @@ jobs:
   - name: build and audit
     commands:
       - echo First Build Step
+      - pwd
+      - env
       - rustup default stable
       - cargo build --locked
       
