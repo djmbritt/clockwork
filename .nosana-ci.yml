@@ -32,7 +32,7 @@ jobs:
           rm -rf dependencies/*
           ./scripts/install.sh
           rustup default bpf
-          cd /workspace/
+          cd /root/project/
           cargo update
           
       - echo install Soteria Auditor
