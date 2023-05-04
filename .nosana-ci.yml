@@ -1,22 +1,29 @@
 # .nosana-ci.yml
 nosana:
-  description: Soteria Code Scan
+  description: Clockwork CodeScan, Bump and Release
 
 global:
   image: projectserum/build:v0.27.0
   env:
     CARGO_TERM_COLOR: always
+    WORKDIR: /root/project
+    ANCHOR_VERSION: v0.27.0
+    PUBLISH_PREFIX: clockwork
+    RUST_BACKTRACE: full
+    GIT_USER_NAME: "David Britt"
+    GIT_USER_EMAIL: david@nosana.io
+    # CARGO_REGISTRY_TOKEN:
+    #   type: nosana/secret
+    #   endpoint: https://secrets.nosana.ci
+    #   value: CRATES_IO_TOKEN
 
   trigger:
     branch:
       - main
-           
-#    pull_request:
-#      branches:
-#        - main
 
 jobs:
-  - name: build and audit
+  
+  - name: build and audit 🏗🧐
     commands:
       - echo First Build Step
       - pwd
@@ -26,14 +33,12 @@ jobs:
       
       - echo Installing BPG toolchain
       - pwd
-      - |
-          rustup default stable
-          cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
-          rm -rf dependencies/*
-          ./scripts/install.sh
-          rustup default bpf
-          cd /root/project/
-          cargo update
+      - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
+      - rm -rf dependencies/*
+      - ./scripts/install.sh
+      - rustup default bpf
+      - cd $WORKDIR
+      - cargo update
           
       - echo install Soteria Auditor
       - sh -c "$(curl -k https://supercompiler.xyz/install)"
@@ -43,15 +48,76 @@ jobs:
       - export PATH=$PWD/soteria-linux-develop/bin:$PATH
       - cd programs/network
       - soteria -analyzeAll .
-      - cd ../..
+      - cd $WORKDIR
       
       - echo Auditing programs/thread
       - export PATH=$PWD/soteria-linux-develop/bin:$PATH
       - cd programs/thread
       - soteria -analyzeAll .
-      - cd ../..
+      - cd $WORKDIR
       
       - echo Auditing webhook
       - export PATH=$PWD/soteria-linux-develop/bin:$PATH
       - cd programs/webhook
       - soteria -analyzeAll .
+
+  - name: Release
+    commands:
+      - echo Release Step ⏏
+      - pwd
+      - env
+      - rustup default stable
+
+      - echo Install cargo-edit
+      - cargo install cargo-edit@0.11.9
+      
+      - echo Run version bump script
+      - cd $WORKDIR
+      
+      # These are the arguments that can be passed to the bump-version.sh script
+      # major, minor, patch, rc, beta, alpha
+      # Note that the --exclude can also be passed
+      - source ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
+      - echo "$old_version" > OLD_VERSION
+
+      - echo Create artificats and changes from diff
+      - git status --porcelain | sed s/^...// | tar -cvf changes.tar --files-from -
+      - mkdir -p changes
+      - cd changes
+      - mv ../changes.tar .
+      - tar -xvf changes.tar
+      - rm changes.tar
+      - cd -
+      
+      - echo Build release
+      - cargo build --release --locked
+      
+      - echo Commit and Tag
+      - git config --global user.name $GIT_USER_EMAIL
+      - git config --global user.email $GIT_USER_NAME
+      - git tag -a v.$NEW_VERSION "Latest version of Clockwork XYZ $NEW_VERSION"
+      - git commit -am . "Latest Release"
+      - git push
+      
+      - echo Set env vars
+      - source scripts/ci/rust-version.sh
+      - echo "PLUGIN_RUST_VERSION=$rust_stable"
+      
+      # TODO Do these variables need to be exported? or are they fine as is?
+      - echo Check Solana version
+      - echo "CI_TAG=v${{ env.NEW_VERSION }}"
+      - echo "CI_OS_NAME=linux"
+      - SOLANA_VERSION="$(./scripts/ci/solana-version.sh)"
+      - SOLANA_VERSION="v${SOLANA_VERSION#=}"
+      - echo "SOLANA_VERSION=$SOLANA_VERSION"
+      
+      - echo Grant permission to scripts
+      - chmod +x ./scripts/ci/create-tarball.sh
+      - chmod +x ./scripts/build-all.sh
+
+      - echo Build release tarball
+      - ./scripts/ci/create-tarball.sh
+
+      - echo GH Release
+     
+     
