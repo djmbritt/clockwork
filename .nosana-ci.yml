@@ -4,7 +4,7 @@ nosana:
 
 global:
   image: projectserum/build:v0.27.0
-  env:
+  environment:
     CARGO_TERM_COLOR: always
     WORKDIR: /nosana-ci/nosana-ci
     ANCHOR_VERSION: v0.27.0
