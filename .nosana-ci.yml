@@ -28,7 +28,7 @@ jobs:
       - echo First Build Step
       - cd /
       - ls -lah
-      - cd /workdir
+      - cd /workdir/nosana-ci/
       - pwd
       - ls -lah
       - env
