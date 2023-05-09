@@ -102,8 +102,7 @@ jobs:
       - echo Set env vars
       - source scripts/ci/rust-version.sh
       - echo "PLUGIN_RUST_VERSION=$rust_stable"
-      
-      # TODO Do these variables need to be exported? or are they fine as is?
+
       - echo Check Solana version
       - echo "CI_TAG=v${{ env.NEW_VERSION }}"
       - echo "CI_OS_NAME=linux"
@@ -118,6 +117,6 @@ jobs:
       - echo Build release tarball
       - ./scripts/ci/create-tarball.sh
 
-      - echo GH Release
-      
+      - ls -lah
+      - env
       
