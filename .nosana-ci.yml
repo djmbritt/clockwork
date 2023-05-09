@@ -6,7 +6,7 @@ global:
   image: projectserum/build:v0.27.0
   environment:
     CARGO_TERM_COLOR: always
-    WORKDIR: /nosana-ci/nosana-ci
+    WORKDIR: /nosana-ci/
     ANCHOR_VERSION: v0.27.0
     PUBLISH_PREFIX: clockwork
     RUST_BACKTRACE: full
@@ -22,8 +22,8 @@ global:
       - main
 
 jobs:
-  
-  - name: build and audit 🏗🧐
+
+  - name: build and audit
     commands:
       - echo First Build Step
       - cd $WORKDIR
@@ -32,7 +32,7 @@ jobs:
       - env
       - rustup default stable
       - cargo build --locked
-      
+
       - echo Installing BPG toolchain
       - pwd
       - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
@@ -41,23 +41,23 @@ jobs:
       - rustup default bpf
       - cd $WORKDIR
       - cargo update
-          
+
       - echo install Soteria Auditor
       - sh -c "$(curl -k https://supercompiler.xyz/install)"
       - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
-      
+
       - echo Auditing programs/network
       - export PATH=$PWD/soteria-linux-develop/bin:$PATH
       - cd programs/network
       - soteria -analyzeAll .
       - cd $WORKDIR
-      
+
       - echo Auditing programs/thread
       - export PATH=$PWD/soteria-linux-develop/bin:$PATH
       - cd programs/thread
       - soteria -analyzeAll .
       - cd $WORKDIR
-      
+
       - echo Auditing webhook
       - export PATH=$PWD/soteria-linux-develop/bin:$PATH
       - cd programs/webhook
@@ -72,10 +72,10 @@ jobs:
 
       - echo Install cargo-edit
       - cargo install cargo-edit@0.11.9
-      
+
       - echo Run version bump script
       - cd $WORKDIR
-      
+
       # These are the arguments that can be passed to the bump-version.sh script
       # major, minor, patch, rc, beta, alpha
       # Note that the --exclude can also be passed
@@ -90,17 +90,17 @@ jobs:
       - tar -xvf changes.tar
       - rm changes.tar
       - cd -
-      
+
       - echo Build release
       - cargo build --release --locked
-      
+
       - echo Commit and Tag
       - git config --global user.name $GIT_USER_EMAIL
       - git config --global user.email $GIT_USER_NAME
       - git tag -a v.$NEW_VERSION "Latest version of Clockwork XYZ $NEW_VERSION"
       - git commit -am . "Latest Release"
       - git push
-      
+
       - echo Set env vars
       - source scripts/ci/rust-version.sh
       - echo "PLUGIN_RUST_VERSION=$rust_stable"
@@ -111,7 +111,7 @@ jobs:
       - SOLANA_VERSION="$(./scripts/ci/solana-version.sh)"
       - SOLANA_VERSION="v${SOLANA_VERSION#=}"
       - echo "SOLANA_VERSION=$SOLANA_VERSION"
-      
+
       - echo Grant permission to scripts
       - chmod +x ./scripts/ci/create-tarball.sh
       - chmod +x ./scripts/build-all.sh
@@ -121,4 +121,3 @@ jobs:
 
       - ls -lah
       - env
-      
