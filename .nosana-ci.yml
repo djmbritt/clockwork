@@ -6,7 +6,7 @@ global:
   image: projectserum/build:v0.27.0
   env:
     CARGO_TERM_COLOR: always
-    WORKDIR: /root/project
+    WORKDIR: /nosana-ci
     ANCHOR_VERSION: v0.27.0
     PUBLISH_PREFIX: clockwork
     RUST_BACKTRACE: full
@@ -27,6 +27,7 @@ jobs:
     commands:
       - echo First Build Step
       - pwd
+      - ls -lah
       - env
       - rustup default stable
       - cargo build --locked
