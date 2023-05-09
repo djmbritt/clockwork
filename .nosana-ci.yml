@@ -28,7 +28,7 @@ jobs:
       - echo First Build Step
       - cd /
       - ls -lah
-      - cd $WORKDIR
+      - cd /workdir
       - pwd
       - ls -lah
       - env
