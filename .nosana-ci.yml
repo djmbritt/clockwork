@@ -6,7 +6,7 @@ global:
   image: projectserum/build:v0.27.0
   environment:
     CARGO_TERM_COLOR: always
-    WORKDIR: /nosana-ci/
+    WORKDIR: /workdir/nosana-ci/
     ANCHOR_VERSION: v0.27.0
     PUBLISH_PREFIX: clockwork
     RUST_BACKTRACE: full
@@ -26,100 +26,98 @@ jobs:
   - name: build and audit
     commands:
       - echo First Build Step
-      - cd /
-      - ls -lah
-      - cd /workdir/nosana-ci/
+      - cd $WORKDIR
       - pwd
       - ls -lah
       - env
-      # - rustup default stable
-      # - cargo build --locked
+      - rustup default stable
+      - cargo build --locked
 
-  #     - echo Installing BPG toolchain
-  #     - pwd
-  #     - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
-  #     - rm -rf dependencies/*
-  #     - ./scripts/install.sh
-  #     - rustup default bpf
-  #     - cd $WORKDIR
-  #     - cargo update
+      - echo Installing BPG toolchain
+      - pwd
+      - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
+      - rm -rf dependencies/*
+      - ./scripts/install.sh
+      - rustup default bpf
+      - cd $WORKDIR
+      - cargo update
 
-  #     - echo install Soteria Auditor
-  #     - sh -c "$(curl -k https://supercompiler.xyz/install)"
-  #     - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
+      - echo install Soteria Auditor
+      - sh -c "$(curl -k https://supercompiler.xyz/install)"
+      - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
 
-  #     - echo Auditing programs/network
-  #     - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-  #     - cd programs/network
-  #     - soteria -analyzeAll .
-  #     - cd $WORKDIR
+      - echo Auditing programs/network
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/network
+      - soteria -analyzeAll .
+      - cd $WORKDIR
 
-  #     - echo Auditing programs/thread
-  #     - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-  #     - cd programs/thread
-  #     - soteria -analyzeAll .
-  #     - cd $WORKDIR
+      - echo Auditing programs/thread
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/thread
+      - soteria -analyzeAll .
+      - cd $WORKDIR
 
-  #     - echo Auditing webhook
-  #     - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-  #     - cd programs/webhook
-  #     - soteria -analyzeAll .
+      - echo Auditing webhook
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/webhook
+      - soteria -analyzeAll .
 
-  # - name: Release
-  #   commands:
-  #     - echo Release Step ⏏
-  #     - pwd
-  #     - env
-  #     - rustup default stable
+  - name: Release
+    commands:
+      - echo Release Step ⏏
+      - pwd
+      - env
+      - rustup default stable
 
-  #     - echo Install cargo-edit
-  #     - cargo install cargo-edit@0.11.9
+      - echo Install cargo-edit
+      - cargo install cargo-edit@0.11.9
 
-  #     - echo Run version bump script
-  #     - cd $WORKDIR
+      - echo Run version bump script
+      - cd $WORKDIR
 
-  #     # These are the arguments that can be passed to the bump-version.sh script
-  #     # major, minor, patch, rc, beta, alpha
-  #     # Note that the --exclude can also be passed
-  #     - source ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
-  #     - echo "$old_version" > OLD_VERSION
+      # These are the arguments that can be passed to the bump-version.sh script
+      # major, minor, patch, rc, beta, alpha
+      # Note that the --exclude can also be passed
+      - source ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
+      - echo "$old_version" > OLD_VERSION
 
-  #     - echo Create artificats and changes from diff
-  #     - git status --porcelain | sed s/^...// | tar -cvf changes.tar --files-from -
-  #     - mkdir -p changes
-  #     - cd changes
-  #     - mv ../changes.tar .
-  #     - tar -xvf changes.tar
-  #     - rm changes.tar
-  #     - cd -
+      - echo Create artificats and changes from diff
+      - git status --porcelain | sed s/^...// | tar -cvf changes.tar --files-from -
+      - mkdir -p changes
+      - cd changes
+      - mv ../changes.tar .
+      - tar -xvf changes.tar
+      - rm changes.tar
+      - cd -
 
-  #     - echo Build release
-  #     - cargo build --release --locked
+      - echo Build release
+      - cargo build --release --locked
 
-  #     - echo Commit and Tag
-  #     - git config --global user.name $GIT_USER_EMAIL
-  #     - git config --global user.email $GIT_USER_NAME
-  #     - git tag -a v.$NEW_VERSION "Latest version of Clockwork XYZ $NEW_VERSION"
-  #     - git commit -am . "Latest Release"
-  #     - git push
+      - echo Commit and Tag
+      - git config --global user.name $GIT_USER_EMAIL
+      - git config --global user.email $GIT_USER_NAME
+      - git tag -a v.$NEW_VERSION "Latest version of Clockwork XYZ $NEW_VERSION"
+      - git commit -am . "Latest Release"
+      - git push
 
-  #     - echo Set env vars
-  #     - source scripts/ci/rust-version.sh
-  #     - echo "PLUGIN_RUST_VERSION=$rust_stable"
+      - echo Set env vars
+      - source scripts/ci/rust-version.sh
+      - echo "PLUGIN_RUST_VERSION=$rust_stable"
 
-  #     - echo Check Solana version
-  #     - echo "CI_TAG=v${{ env.NEW_VERSION }}"
-  #     - echo "CI_OS_NAME=linux"
-  #     - SOLANA_VERSION="$(./scripts/ci/solana-version.sh)"
-  #     - SOLANA_VERSION="v${SOLANA_VERSION#=}"
-  #     - echo "SOLANA_VERSION=$SOLANA_VERSION"
+      - echo Check Solana version
+      - echo "CI_TAG=v${{ env.NEW_VERSION }}"
+      - echo "CI_OS_NAME=linux"
+      - SOLANA_VERSION="$(./scripts/ci/solana-version.sh)"
+      - SOLANA_VERSION="v${SOLANA_VERSION#=}"
+      - echo "SOLANA_VERSION=$SOLANA_VERSION"
 
-  #     - echo Grant permission to scripts
-  #     - chmod +x ./scripts/ci/create-tarball.sh
-  #     - chmod +x ./scripts/build-all.sh
+      - echo Grant permission to scripts
+      - chmod +x ./scripts/ci/create-tarball.sh
+      - chmod +x ./scripts/build-all.sh
 
-  #     - echo Build release tarball
-  #     - ./scripts/ci/create-tarball.sh
+      - echo Build release tarball
+      - ./scripts/ci/create-tarball.sh
 
-  #     - ls -lah
-  #     - env
+      - ls -lah
+      - env
