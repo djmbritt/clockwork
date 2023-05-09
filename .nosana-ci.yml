@@ -6,7 +6,7 @@ global:
   image: projectserum/build:v0.27.0
   env:
     CARGO_TERM_COLOR: always
-    WORKDIR: /nosana-ci
+    WORKDIR: /nosana-ci/nosana-ci
     ANCHOR_VERSION: v0.27.0
     PUBLISH_PREFIX: clockwork
     RUST_BACKTRACE: full
