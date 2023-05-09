@@ -26,6 +26,7 @@ jobs:
   - name: build and audit 🏗🧐
     commands:
       - echo First Build Step
+      - cd $WORKDIR
       - pwd
       - ls -lah
       - env
