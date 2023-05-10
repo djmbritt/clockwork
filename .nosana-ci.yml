@@ -23,6 +23,10 @@ global:
 
 jobs:
 
+  - name: First step
+    commands:
+      - echo Job Started
+
   - name: build and audit
     commands:
       - echo First Build Step
