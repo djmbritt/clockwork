@@ -2485,6 +2485,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "nosana-clockwork-thread-program"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "chrono",
+ "nosana-clockwork-thread-program-v1",
+ "nosana_clockwork-cron",
+ "nosana_clockwork-network-program",
+ "nosana_clockwork-utils",
+ "static-pubkey",
+ "version",
+]
+
+[[package]]
+name = "nosana-clockwork-thread-program-v1"
+version = "1.4.4"
+dependencies = [
+ "anchor-lang",
+ "clockwork-anchor-gen",
+]
+
+[[package]]
 name = "nosana_clockwork-cli"
 version = "2.0.15"
 dependencies = [
@@ -2523,8 +2545,8 @@ dependencies = [
  "anchor-spl",
  "bincode",
  "borsh",
+ "nosana-clockwork-thread-program",
  "nosana_clockwork-network-program",
- "nosana_clockwork-thread-program",
  "nosana_clockwork-utils",
  "nosana_clockwork-webhook-program",
  "solana-client",
@@ -2591,30 +2613,8 @@ dependencies = [
  "anchor-lang",
  "chrono",
  "nom",
- "nosana_clockwork-thread-program",
+ "nosana-clockwork-thread-program",
  "once_cell",
-]
-
-[[package]]
-name = "nosana_clockwork-thread-program"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "chrono",
- "nosana_clockwork-cron",
- "nosana_clockwork-network-program",
- "nosana_clockwork-thread-program-v1",
- "nosana_clockwork-utils",
- "static-pubkey",
- "version",
-]
-
-[[package]]
-name = "nosana_clockwork-thread-program-v1"
-version = "1.4.4"
-dependencies = [
- "anchor-lang",
- "clockwork-anchor-gen",
 ]
 
 [[package]]
@@ -2653,11 +2653,11 @@ dependencies = [
  "futures",
  "lazy_static",
  "log 0.4.17",
+ "nosana-clockwork-thread-program",
+ "nosana-clockwork-thread-program-v1",
  "nosana_clockwork-client",
  "nosana_clockwork-cron",
  "nosana_clockwork-relayer-api",
- "nosana_clockwork-thread-program",
- "nosana_clockwork-thread-program-v1",
  "nosana_clockwork-utils",
  "prost",
  "reqwest",
