@@ -23,11 +23,12 @@ global:
 
 jobs:
 
-  - name: First step
-    commands:
-      - echo Job Started
-
   - name: build and audit
+
+      resources:
+      name: cargo_target
+      path: target/
+
     commands:
       - echo First Build Step
       - cd $WORKDIR
@@ -64,7 +65,17 @@ jobs:
       - cd programs/webhook
       - soteria -analyzeAll .
 
+      - ls -lah
+
+
+
+
   - name: Release
+
+    artifacts:
+      name: cargo_target
+      path: ./
+
     commands:
       - echo Release Step
       - rustup default stable
