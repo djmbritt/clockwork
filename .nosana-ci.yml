@@ -33,7 +33,7 @@ jobs:
       - cd $WORKDIR
       - rustup default stable
       - cargo check # Fail fast
-      - cargo build --locked
+      # - cargo build --locked
 
       - echo Installing BPG toolchain
       - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
@@ -68,18 +68,7 @@ jobs:
     commands:
       - echo Release Step
       - rustup default stable
-
-      - echo Install cargo-edit
-      - cargo install cargo-edit@0.11.9
-
-      - echo Run version bump script
       - cd $WORKDIR
-
-      # These are the arguments that can be passed to the bump-version.sh script
-      # major, minor, patch, rc, beta, alpha
-      # Note that the --exclude can also be passed
-      - chmod +x ./scripts/ci/bump-version.sh
-      - ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
 
       - echo Build release
       - cargo build --release --locked
