@@ -79,7 +79,8 @@ jobs:
       # These are the arguments that can be passed to the bump-version.sh script
       # major, minor, patch, rc, beta, alpha
       # Note that the --exclude can also be passed
-      - source ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
+      - chmod +x ./scripts/ci/bump-version.sh
+      - ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
       - echo "$old_version" > OLD_VERSION
 
       - echo Create artificats and changes from diff
@@ -102,7 +103,8 @@ jobs:
       - git push
 
       - echo Set env vars
-      - source scripts/ci/rust-version.sh
+      - chmod +x ./scripts/ci/rust-version.sh
+      - ./scripts/ci/rust-version.sh
       - echo "PLUGIN_RUST_VERSION=$rust_stable"
 
       - echo Check Solana version
@@ -117,6 +119,7 @@ jobs:
       - chmod +x ./scripts/build-all.sh
 
       - echo Build release tarball
+      - ./scripts/build-all.sh
       - ./scripts/ci/create-tarball.sh
 
       - ls -lah
