@@ -1,5 +1,5 @@
 [package]
-name = "clockwork-cron"
+name = "nosana_clockwork-cron"
 version = "2.0.15"
 description = "A cron expression parser that's safe to use in the Solana runtime"
 edition = "2021"
@@ -11,7 +11,7 @@ readme = "./README.md"
 keywords = ["solana"]
 
 [lib]
-name = "clockwork_cron"
+name = "nosana_clockwork_cron"
 
 [dependencies]
 chrono = { version = "0.4.19", default-features = false, features = ["alloc"] }

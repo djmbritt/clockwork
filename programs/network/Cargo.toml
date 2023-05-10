@@ -1,5 +1,5 @@
 [package]
-name = "clockwork-network-program"
+name = "nosana_clockwork-network-program"
 version = "2.0.15"
 description = "Clockwork networking protocol"
 edition = "2021"
@@ -12,7 +12,7 @@ keywords = ["solana"]
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "clockwork_network_program"
+name = "nosana_clockwork_network_program"
 
 [features]
 no-entrypoint = []
@@ -24,4 +24,4 @@ default = []
 [dependencies]
 anchor-lang = "0.27.0"
 anchor-spl = { features = ["mint", "token"], version = "0.27.0" }
-clockwork-utils = { path = "../../utils", version = "2.0.15" }
+nosana_clockwork-utils = { path = "../../utils", version = "2.0.15" }

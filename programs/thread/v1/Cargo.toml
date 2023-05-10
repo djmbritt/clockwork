@@ -1,5 +1,5 @@
 [package]
-name = "clockwork-thread-program-v1"
+name = "nosana_clockwork-thread-program-v1"
 version = "1.4.4"
 edition = "2021"
 readme = "./README.md"
@@ -8,7 +8,7 @@ license = "AGPL-3.0-or-later"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "clockwork_thread_program_v1"
+name = "nosana_clockwork_thread_program_v1"
 
 [features]
 default = ["cpi"]

@@ -1,5 +1,5 @@
 [package]
-name = "clockwork-app"
+name = "nosana_clockwork-app"
 version = "2.0.15"
 edition = "2021"
 description = "The Clockwork Dashboard"

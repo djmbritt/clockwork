@@ -1,5 +1,5 @@
 [package]
-name = "clockwork-webhook-program"
+name = "nosana_clockwork-webhook-program"
 version = "2.0.15"
 description = "Clockwork webhook program"
 edition = "2021"
@@ -12,7 +12,7 @@ keywords = ["solana"]
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "clockwork_webhook_program"
+name = "nosana_clockwork_webhook_program"
 
 [features]
 no-entrypoint = []
@@ -23,6 +23,6 @@ default = []
 
 [dependencies]
 anchor-lang = { features = ["init-if-needed"], version = "0.27.0" }
-clockwork-network-program = { path = "../network", features = ["cpi"], version = "2.0.15" }
-clockwork-utils = { path = "../../utils", version = "2.0.15" }
+nosana_clockwork-network-program = { path = "../network", features = ["cpi"], version = "2.0.15" }
+nosana_clockwork-utils = { path = "../../utils", version = "2.0.15" }
 serde = "1.0.152"
