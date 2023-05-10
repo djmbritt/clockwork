@@ -94,7 +94,7 @@ jobs:
       - echo Commit and Tag
       - git config --global user.name $GIT_USER_EMAIL
       - git config --global user.email $GIT_USER_NAME
-      - git tag -a v. "Latest version of Clockwork XYZ"
+      # - git tag -a v. "Latest version of Clockwork XYZ"
       - git commit -am . "Latest Release"
       # - git push
 
