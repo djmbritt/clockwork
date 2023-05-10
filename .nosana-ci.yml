@@ -80,7 +80,6 @@ jobs:
 
 
       - echo Create artificats and changes from diff
-      - git status --porcelain | sed s/^...// | tar -cvf changes.tar --files-from -
       - mkdir -p changes
       - cd changes
       - mv ../changes.tar .
@@ -97,8 +96,6 @@ jobs:
 
       - echo Build release tarball
       - ./scripts/build-all.sh
-      - ./scripts/ci/create-tarball.sh
+      # - ./scripts/ci/create-tarball.sh
 
       - ls -lah
-      - env
-      - pwd
