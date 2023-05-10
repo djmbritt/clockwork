@@ -75,9 +75,11 @@ jobs:
       # major, minor, patch, rc, beta, alpha
       # Note that the --exclude can also be passed
       - chmod +x ./scripts/ci/bump-version.sh
-      - . ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
+      - ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
       - echo "$old_version" > OLD_VERSION
       - echo "$new_version" > NEW_VERSION
+      - echo "OLD_VERSION: $OLD_VERSION"
+      - echo "NEW_VERSION: $NEW_VERSION"
 
       - echo Create artificats and changes from diff
       - git status --porcelain | sed s/^...// | tar -cvf changes.tar --files-from -
@@ -100,7 +102,7 @@ jobs:
 
       - echo Set env vars
       - chmod +x ./scripts/ci/rust-version.sh
-      - . ./scripts/ci/rust-version.sh
+      - ./scripts/ci/rust-version.sh
       - echo "PLUGIN_RUST_VERSION=$rust_stable"
 
       - echo Check Solana version
