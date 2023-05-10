@@ -23,6 +23,7 @@ global:
 
 jobs:
 
+  # DONE
   # - name: build and audit
   #   commands:
   #     - echo First Build Step
@@ -76,10 +77,9 @@ jobs:
       # Note that the --exclude can also be passed
       - chmod +x ./scripts/ci/bump-version.sh
       - ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
-      - echo "$old_version" > OLD_VERSION
-      - echo "$new_version" > NEW_VERSION
-      - echo "OLD_VERSION: $OLD_VERSION"
-      - echo "NEW_VERSION: $NEW_VERSION"
+      - echo "$old_version"
+      - echo "$new_version"
+
 
       - echo Create artificats and changes from diff
       - git status --porcelain | sed s/^...// | tar -cvf changes.tar --files-from -
@@ -96,7 +96,7 @@ jobs:
       - echo Commit and Tag
       - git config --global user.name $GIT_USER_EMAIL
       - git config --global user.email $GIT_USER_NAME
-      - git tag -a v.$NEW_VERSION "Latest version of Clockwork XYZ $NEW_VERSION"
+      - git tag -a v.$new_version "Latest version of Clockwork XYZ $new_version"
       - git commit -am . "Latest Release"
       # - git push
 
@@ -106,7 +106,7 @@ jobs:
       - echo "PLUGIN_RUST_VERSION=$rust_stable"
 
       - echo Check Solana version
-      - echo "CI_TAG=v${{ env.NEW_VERSION }}"
+      - echo "CI_TAG=v${{ env.new_version }}"
       - echo "CI_OS_NAME=linux"
       - SOLANA_VERSION="$(./scripts/ci/solana-version.sh)"
       - SOLANA_VERSION="v${SOLANA_VERSION#=}"
