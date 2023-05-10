@@ -77,8 +77,6 @@ jobs:
       # Note that the --exclude can also be passed
       - chmod +x ./scripts/ci/bump-version.sh
       - ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
-      - echo "$old_version"
-      - echo "$new_version"
 
 
       - echo Create artificats and changes from diff
@@ -96,7 +94,7 @@ jobs:
       - echo Commit and Tag
       - git config --global user.name $GIT_USER_EMAIL
       - git config --global user.email $GIT_USER_NAME
-      - git tag -a v.$new_version "Latest version of Clockwork XYZ $new_version"
+      - git tag -a v. "Latest version of Clockwork XYZ"
       - git commit -am . "Latest Release"
       # - git push
 
