@@ -27,15 +27,11 @@ jobs:
     commands:
       - echo First Build Step
       - cd $WORKDIR
-      - pwd
-      - ls -lah
-      - env
       - rustup default stable
       - cargo check # Fail fast
       - cargo build --locked
 
       - echo Installing BPG toolchain
-      - pwd
       - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
       - rm -rf dependencies/*
       - ./scripts/install.sh
@@ -66,9 +62,7 @@ jobs:
 
   - name: Release
     commands:
-      - echo Release Step ⏏
-      - pwd
-      - env
+      - echo Release Step
       - rustup default stable
 
       - echo Install cargo-edit
@@ -81,8 +75,9 @@ jobs:
       # major, minor, patch, rc, beta, alpha
       # Note that the --exclude can also be passed
       - chmod +x ./scripts/ci/bump-version.sh
-      - ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
+      - . ./scripts/ci/bump-version.sh patch # --exclude clockwork-thread-program-v1
       - echo "$old_version" > OLD_VERSION
+      - echo "$new_version" > NEW_VERSION
 
       - echo Create artificats and changes from diff
       - git status --porcelain | sed s/^...// | tar -cvf changes.tar --files-from -
@@ -101,11 +96,11 @@ jobs:
       - git config --global user.email $GIT_USER_NAME
       - git tag -a v.$NEW_VERSION "Latest version of Clockwork XYZ $NEW_VERSION"
       - git commit -am . "Latest Release"
-      - git push
+      # - git push
 
       - echo Set env vars
       - chmod +x ./scripts/ci/rust-version.sh
-      - ./scripts/ci/rust-version.sh
+      - . ./scripts/ci/rust-version.sh
       - echo "PLUGIN_RUST_VERSION=$rust_stable"
 
       - echo Check Solana version
