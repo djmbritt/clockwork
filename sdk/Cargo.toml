@@ -1,5 +1,5 @@
 [package]
-name = "nosana_clockwork-sdk"
+name = "clockwork-sdk"
 version = "2.0.15"
 description = "An SDK for building automated programs on Solana"
 edition = "2021"
@@ -11,12 +11,12 @@ readme = "./README.md"
 keywords = ["solana"]
 
 [lib]
-name = "nosana_clockwork_sdk"
+name = "clockwork_sdk"
 
 [dependencies]
 anchor-lang = "0.27.0"
 chrono = { version = "0.4.19", default-features = false, features = ["alloc"] }
-nosana-clockwork-thread-program = { path = "../programs/thread", features = ["cpi"], version = "2.0.15" }
+clockwork-thread-program = { path = "../programs/thread", features = ["cpi"], version = "2.0.15" }
 nom = "~7"
 once_cell = "1.5.2"
 

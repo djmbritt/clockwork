@@ -1049,6 +1049,198 @@ dependencies = [
 ]
 
 [[package]]
+name = "clockwork-cli"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "anyhow",
+ "bincode",
+ "chrono",
+ "clap 3.2.23",
+ "clockwork-client",
+ "clockwork-cron",
+ "clockwork-relayer-api",
+ "clockwork-utils",
+ "clockwork-webhook-program",
+ "dirs-next",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "serde_yaml 0.9.21",
+ "solana-account-decoder",
+ "solana-clap-utils",
+ "solana-cli-config",
+ "solana-client",
+ "solana-sdk",
+ "spl-associated-token-account",
+ "spl-memo",
+ "spl-token",
+ "thiserror",
+ "version",
+]
+
+[[package]]
+name = "clockwork-client"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "bincode",
+ "borsh",
+ "clockwork-network-program",
+ "clockwork-thread-program",
+ "clockwork-utils",
+ "clockwork-webhook-program",
+ "solana-client",
+ "solana-sdk",
+ "spl-associated-token-account",
+ "thiserror",
+]
+
+[[package]]
+name = "clockwork-cron"
+version = "2.0.15"
+dependencies = [
+ "chrono",
+ "nom",
+ "once_cell",
+]
+
+[[package]]
+name = "clockwork-network-program"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "clockwork-utils",
+]
+
+[[package]]
+name = "clockwork-relayer"
+version = "2.0.15"
+dependencies = [
+ "actix-cors",
+ "actix-web",
+ "anchor-lang",
+ "bincode",
+ "byte-unit",
+ "clockwork-relayer-api",
+ "clockwork-webhook-program",
+ "curve25519-dalek",
+ "lazy_static",
+ "rayon",
+ "regex",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "solana-client",
+ "solana-sdk",
+ "solana-zk-token-sdk",
+ "tokio",
+]
+
+[[package]]
+name = "clockwork-relayer-api"
+version = "2.0.15"
+dependencies = [
+ "bincode",
+ "serde",
+ "solana-sdk",
+]
+
+[[package]]
+name = "clockwork-sdk"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "chrono",
+ "clockwork-thread-program",
+ "nom",
+ "once_cell",
+]
+
+[[package]]
+name = "clockwork-thread-program"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "chrono",
+ "clockwork-cron",
+ "clockwork-network-program",
+ "clockwork-thread-program-v1",
+ "clockwork-utils",
+ "static-pubkey",
+ "version",
+]
+
+[[package]]
+name = "clockwork-thread-program-v1"
+version = "1.4.4"
+dependencies = [
+ "anchor-lang",
+ "clockwork-anchor-gen",
+]
+
+[[package]]
+name = "clockwork-utils"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "base64 0.13.1",
+ "serde",
+ "serde_json",
+ "static-pubkey",
+]
+
+[[package]]
+name = "clockwork-webhook-program"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "clockwork-network-program",
+ "clockwork-utils",
+ "serde",
+]
+
+[[package]]
+name = "clockwork_plugin"
+version = "2.0.15"
+dependencies = [
+ "anchor-lang",
+ "async-trait",
+ "async_once",
+ "bincode",
+ "bs58 0.4.0",
+ "bugsnag",
+ "cargo_toml",
+ "chrono",
+ "clockwork-client",
+ "clockwork-cron",
+ "clockwork-relayer-api",
+ "clockwork-thread-program",
+ "clockwork-thread-program-v1",
+ "clockwork-utils",
+ "futures",
+ "lazy_static",
+ "log 0.4.17",
+ "prost",
+ "reqwest",
+ "rustc_version",
+ "serde",
+ "serde_json",
+ "simple-error",
+ "solana-account-decoder",
+ "solana-client",
+ "solana-geyser-plugin-interface",
+ "solana-logger",
+ "solana-program",
+ "solana-sdk",
+ "solana-transaction-status",
+ "thiserror",
+ "tokio",
+]
+
+[[package]]
 name = "codespan-reporting"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2482,198 +2674,6 @@ checksum = "d273983c5a657a70a3e8f2a01329822f3b8c8172b73826411a55751e404a0a4a"
 dependencies = [
  "memchr",
  "minimal-lexical",
-]
-
-[[package]]
-name = "nosana-clockwork-thread-program"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "chrono",
- "nosana-clockwork-thread-program-v1",
- "nosana_clockwork-cron",
- "nosana_clockwork-network-program",
- "nosana_clockwork-utils",
- "static-pubkey",
- "version",
-]
-
-[[package]]
-name = "nosana-clockwork-thread-program-v1"
-version = "1.4.4"
-dependencies = [
- "anchor-lang",
- "clockwork-anchor-gen",
-]
-
-[[package]]
-name = "nosana_clockwork-cli"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "anyhow",
- "bincode",
- "chrono",
- "clap 3.2.23",
- "dirs-next",
- "nosana_clockwork-client",
- "nosana_clockwork-cron",
- "nosana_clockwork-relayer-api",
- "nosana_clockwork-utils",
- "nosana_clockwork-webhook-program",
- "reqwest",
- "serde",
- "serde_json",
- "serde_yaml 0.9.21",
- "solana-account-decoder",
- "solana-clap-utils",
- "solana-cli-config",
- "solana-client",
- "solana-sdk",
- "spl-associated-token-account",
- "spl-memo",
- "spl-token",
- "thiserror",
- "version",
-]
-
-[[package]]
-name = "nosana_clockwork-client"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "anchor-spl",
- "bincode",
- "borsh",
- "nosana-clockwork-thread-program",
- "nosana_clockwork-network-program",
- "nosana_clockwork-utils",
- "nosana_clockwork-webhook-program",
- "solana-client",
- "solana-sdk",
- "spl-associated-token-account",
- "thiserror",
-]
-
-[[package]]
-name = "nosana_clockwork-cron"
-version = "2.0.15"
-dependencies = [
- "chrono",
- "nom",
- "once_cell",
-]
-
-[[package]]
-name = "nosana_clockwork-network-program"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "anchor-spl",
- "nosana_clockwork-utils",
-]
-
-[[package]]
-name = "nosana_clockwork-relayer"
-version = "2.0.15"
-dependencies = [
- "actix-cors",
- "actix-web",
- "anchor-lang",
- "bincode",
- "byte-unit",
- "curve25519-dalek",
- "lazy_static",
- "nosana_clockwork-relayer-api",
- "nosana_clockwork-webhook-program",
- "rayon",
- "regex",
- "reqwest",
- "serde",
- "serde_json",
- "solana-client",
- "solana-sdk",
- "solana-zk-token-sdk",
- "tokio",
-]
-
-[[package]]
-name = "nosana_clockwork-relayer-api"
-version = "2.0.15"
-dependencies = [
- "bincode",
- "serde",
- "solana-sdk",
-]
-
-[[package]]
-name = "nosana_clockwork-sdk"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "chrono",
- "nom",
- "nosana-clockwork-thread-program",
- "once_cell",
-]
-
-[[package]]
-name = "nosana_clockwork-utils"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "base64 0.13.1",
- "serde",
- "serde_json",
- "static-pubkey",
-]
-
-[[package]]
-name = "nosana_clockwork-webhook-program"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "nosana_clockwork-network-program",
- "nosana_clockwork-utils",
- "serde",
-]
-
-[[package]]
-name = "nosana_clockwork_plugin"
-version = "2.0.15"
-dependencies = [
- "anchor-lang",
- "async-trait",
- "async_once",
- "bincode",
- "bs58 0.4.0",
- "bugsnag",
- "cargo_toml",
- "chrono",
- "futures",
- "lazy_static",
- "log 0.4.17",
- "nosana-clockwork-thread-program",
- "nosana-clockwork-thread-program-v1",
- "nosana_clockwork-client",
- "nosana_clockwork-cron",
- "nosana_clockwork-relayer-api",
- "nosana_clockwork-utils",
- "prost",
- "reqwest",
- "rustc_version",
- "serde",
- "serde_json",
- "simple-error",
- "solana-account-decoder",
- "solana-client",
- "solana-geyser-plugin-interface",
- "solana-logger",
- "solana-program",
- "solana-sdk",
- "solana-transaction-status",
- "thiserror",
- "tokio",
 ]
 
 [[package]]

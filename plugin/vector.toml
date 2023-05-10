@@ -127,7 +127,7 @@ source = '''
 
 # Test Clockwork log parser
 [[tests]]
-name = "nosana_clockwork_simulation_test"
+name = "clockwork_simulation_test"
 
 [[tests.inputs]]
 insert_at = "parse_solana_logs"
