@@ -23,42 +23,42 @@ global:
 
 jobs:
 
-  # - name: build and audit
-  #   commands:
-  #     - echo First Build Step
-  #     - cd $WORKDIR
-  #     - rustup default stable
-  #     - cargo check # Fail fast
-  #     - cargo build --locked
+  - name: build and audit
+    commands:
+      - echo First Build Step
+      - cd $WORKDIR
+      - rustup default stable
+      - cargo check # Fail fast
+      - cargo build --locked
 
-  #     - echo Installing BPG toolchain
-  #     - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
-  #     - rm -rf dependencies/*
-  #     - ./scripts/install.sh
-  #     - rustup default bpf
-  #     - cd $WORKDIR
-  #     - cargo update
+      - echo Installing BPG toolchain
+      - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
+      - rm -rf dependencies/*
+      - ./scripts/install.sh
+      - rustup default bpf
+      - cd $WORKDIR
+      - cargo update
 
-  #     - echo install Soteria Auditor
-  #     - sh -c "$(curl -k https://supercompiler.xyz/install)"
-  #     - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
+      - echo install Soteria Auditor
+      - sh -c "$(curl -k https://supercompiler.xyz/install)"
+      - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
 
-  #     - echo Auditing programs/network
-  #     - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-  #     - cd programs/network
-  #     - soteria -analyzeAll .
-  #     - cd $WORKDIR
+      - echo Auditing programs/network
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/network
+      - soteria -analyzeAll .
+      - cd $WORKDIR
 
-  #     - echo Auditing programs/thread
-  #     - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-  #     - cd programs/thread
-  #     - soteria -analyzeAll .
-  #     - cd $WORKDIR
+      - echo Auditing programs/thread
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/thread
+      - soteria -analyzeAll .
+      - cd $WORKDIR
 
-  #     - echo Auditing webhook
-  #     - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-  #     - cd programs/webhook
-  #     - soteria -analyzeAll .
+      - echo Auditing webhook
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/webhook
+      - soteria -analyzeAll .
 
   - name: Release
     commands:
