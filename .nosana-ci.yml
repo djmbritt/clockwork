@@ -25,10 +25,10 @@ jobs:
       - cd $WORKDIR
       - rustup default stable
       - cargo check # Fail fast
-	    - cargo build --locked
+      - cargo build --locked
 
-	- name: audit
-		commands:
+  - name: audit
+    commands:
       - echo Installing BPG toolchain
       - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
       - rm -rf dependencies/*
