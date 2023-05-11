@@ -19,7 +19,7 @@ jobs:
     commands:
       - echo Job Started
 
-  - name: build
+  - name: build and audit
     commands:
       - echo Build with Cargo
       - cd $WORKDIR
@@ -27,8 +27,6 @@ jobs:
       - cargo check # Fail fast
       - cargo build --locked
 
-  - name: audit
-    commands:
       - echo Installing BPG toolchain
       - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
       - rm -rf dependencies/*
