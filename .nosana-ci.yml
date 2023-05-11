@@ -22,6 +22,7 @@ jobs:
       - rustup default stable
       - cargo check # Fail fast
       - cargo build --locked
+      - ls -lah
 
       - echo Installing BPG toolchain
       - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
