@@ -1,21 +1,13 @@
 # .nosana-ci.yml
 nosana:
-  description: Clockwork CodeScan, Bump and Release
+  description: Clockwork CodeScan (Build and Audit)
 
 global:
   image: projectserum/build:v0.27.0
   environment:
     CARGO_TERM_COLOR: always
     WORKDIR: /workdir/nosana-ci/
-    ANCHOR_VERSION: v0.27.0
-    PUBLISH_PREFIX: clockwork
     RUST_BACKTRACE: full
-    GIT_USER_NAME: "Clockwork XYZ"
-    GIT_USER_EMAIL: team@clockwork.xyz
-    # CARGO_REGISTRY_TOKEN:
-    #   type: nosana/secret
-    #   endpoint: https://secrets.nosana.ci
-    #   value: CRATES_IO_TOKEN
 
   trigger:
     branch:
@@ -23,87 +15,45 @@ global:
 
 jobs:
 
-  - name: build and audit
-
-    resources:
-      - name: cargo_target
-        path: target/
-      - name: cargo_registry
-        path: /root/.cargo/registry/
-
+  - name: CodeScan with Soteria
     commands:
+      - echo Job Started
 
-      - ls -lah ~/.cargo/registry/cache/github.com-*
-      - cargo install cargo-edit
-      - ls -lah ~/.cargo/registry/cache/github.com-*
-
-      # - echo First Build Step
-      # - cd $WORKDIR
-      # - rustup default stable
-      # - cargo check # Fail fast
-      # # - cargo build --locked
-
-      # - echo Installing BPG toolchain
-      # - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
-      # - rm -rf dependencies/*
-      # - ./scripts/install.sh
-      # - rustup default bpf
-      # - cd $WORKDIR
-      # - cargo update
-
-      # - echo install Soteria Auditor
-      # - sh -c "$(curl -k https://supercompiler.xyz/install)"
-      # - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
-
-      # - echo Auditing programs/network
-      # - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      # - cd programs/network
-      # - soteria -analyzeAll .
-      # - cd $WORKDIR
-
-      # - echo Auditing programs/thread
-      # - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      # - cd programs/thread
-      # - soteria -analyzeAll .
-      # - cd $WORKDIR
-
-      # - echo Auditing webhook
-      # - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      # - cd programs/webhook
-      # - soteria -analyzeAll .
-
-      # - ls -lah
-
-  - name: Release
-
-    artifacts:
-      - name: cargo_target
-        path: ./
-      - name: cargo_registry
-        path: /root/.cargo/registry/
-
+  - name: build
     commands:
+      - echo Build with Cargo
+      - cd $WORKDIR
+      - rustup default stable
+      - cargo check # Fail fast
+	    - cargo build --locked
 
-      - ls -lah ~/.cargo/registry/cache/github.com-*
-      - ls -lah .
+	- name: audit
+		commands:
+      - echo Installing BPG toolchain
+      - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
+      - rm -rf dependencies/*
+      - ./scripts/install.sh
+      - rustup default bpf
+      - cd $WORKDIR
+      - cargo update
 
-      # - echo Release Step
-      # - rustup default stable
-      # - cd $WORKDIR
+      - echo install Soteria Auditor
+      - sh -c "$(curl -k https://supercompiler.xyz/install)"
+      - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
 
-      # - echo Build release
-      # - cargo build --release --locked
-      # - ls -lah target/release
+      - echo Auditing programs/network
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/network
+      - soteria -analyzeAll .
+      - cd $WORKDIR
 
-      # - echo Grant permission to scripts
-      # - chmod +x ./scripts/ci/create-tarball.sh
-      # - chmod +x ./scripts/build-all.sh
+      - echo Auditing programs/thread
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/thread
+      - soteria -analyzeAll .
+      - cd $WORKDIR
 
-      # - echo Build release tarball
-      # - ./scripts/build-all.sh clockwork_release
-      # - ls -lah clockwork_release
-      # - ./scripts/ci/create-tarball.sh
-
-      # TODO uncomment when CARGO_REGISTRY_TOKEN is set in `enviroment`
-      # - cargo install publish-workspace
-      # - cargo publish-workspace --crate-prefix clockwork
+      - echo Auditing webhook
+      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      - cd programs/webhook
+      - soteria -analyzeAll .
