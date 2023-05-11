@@ -15,10 +15,6 @@ global:
 
 jobs:
 
-  - name: CodeScan with Soteria
-    commands:
-      - echo Job Started
-
   - name: build and audit
     commands:
       - echo Build with Cargo
