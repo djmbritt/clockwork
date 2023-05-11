@@ -35,7 +35,7 @@ jobs:
 
       - echo Grant permission to scripts
       - chmod +x ./scripts/ci/create-tarball.sh
-			- chmod +x ./scripts/build-all.sh
+      - chmod +x ./scripts/build-all.sh
 
       - echo Build release tarball
       - ./scripts/build-all.sh clockwork_release
