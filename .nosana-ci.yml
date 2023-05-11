@@ -25,70 +25,83 @@ jobs:
 
   - name: build and audit
 
-      resources:
-      name: cargo_target
-      path: target/
+    resources:
+      - name: cargo_target
+        path: target/
+      - name: cargo_registry
+        path: ~/.cargo/registry/
 
     commands:
-      - echo First Build Step
-      - cd $WORKDIR
-      - rustup default stable
-      - cargo check # Fail fast
-      # - cargo build --locked
 
-      - echo Installing BPG toolchain
-      - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
-      - rm -rf dependencies/*
-      - ./scripts/install.sh
-      - rustup default bpf
-      - cd $WORKDIR
-      - cargo update
+      - ls -lah ~/.cargo/registry/cache/github.com-*
+      - cargo install cargo-edit
+      - ls -lah ~/.cargo/registry/cache/github.com-*
 
-      - echo install Soteria Auditor
-      - sh -c "$(curl -k https://supercompiler.xyz/install)"
-      - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
+      # - echo First Build Step
+      # - cd $WORKDIR
+      # - rustup default stable
+      # - cargo check # Fail fast
+      # # - cargo build --locked
 
-      - echo Auditing programs/network
-      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      - cd programs/network
-      - soteria -analyzeAll .
-      - cd $WORKDIR
+      # - echo Installing BPG toolchain
+      # - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
+      # - rm -rf dependencies/*
+      # - ./scripts/install.sh
+      # - rustup default bpf
+      # - cd $WORKDIR
+      # - cargo update
 
-      - echo Auditing programs/thread
-      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      - cd programs/thread
-      - soteria -analyzeAll .
-      - cd $WORKDIR
+      # - echo install Soteria Auditor
+      # - sh -c "$(curl -k https://supercompiler.xyz/install)"
+      # - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
 
-      - echo Auditing webhook
-      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      - cd programs/webhook
-      - soteria -analyzeAll .
+      # - echo Auditing programs/network
+      # - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      # - cd programs/network
+      # - soteria -analyzeAll .
+      # - cd $WORKDIR
 
-      - ls -lah
+      # - echo Auditing programs/thread
+      # - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      # - cd programs/thread
+      # - soteria -analyzeAll .
+      # - cd $WORKDIR
+
+      # - echo Auditing webhook
+      # - export PATH=$PWD/soteria-linux-develop/bin:$PATH
+      # - cd programs/webhook
+      # - soteria -analyzeAll .
+
+      # - ls -lah
 
   - name: Release
 
     artifacts:
-      name: cargo_target
-      path: ./
+      - name: cargo_target
+        path: ./
+      - name: cargo_registry
+        path: ~/.cargo/registry/
 
     commands:
-      - echo Release Step
-      - rustup default stable
-      - cd $WORKDIR
 
-      - echo Build release
-      - cargo build --release --locked
-      - ls -lah target/release
+      - ls -lah ~/.cargo/registry/cache/github.com-*
+      - ls -lah .
 
-      - echo Grant permission to scripts
-      - chmod +x ./scripts/ci/create-tarball.sh
-      - chmod +x ./scripts/build-all.sh
+      # - echo Release Step
+      # - rustup default stable
+      # - cd $WORKDIR
 
-      - echo Build release tarball
-      - ./scripts/build-all.sh clockwork_release
-      - ls -lah clockwork_release
+      # - echo Build release
+      # - cargo build --release --locked
+      # - ls -lah target/release
+
+      # - echo Grant permission to scripts
+      # - chmod +x ./scripts/ci/create-tarball.sh
+      # - chmod +x ./scripts/build-all.sh
+
+      # - echo Build release tarball
+      # - ./scripts/build-all.sh clockwork_release
+      # - ls -lah clockwork_release
       # - ./scripts/ci/create-tarball.sh
 
       # TODO uncomment when CARGO_REGISTRY_TOKEN is set in `enviroment`
