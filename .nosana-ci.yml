@@ -1,13 +1,21 @@
 # .nosana-ci.yml
 nosana:
-  description: Clockwork CodeScan (Build and Audit)
+  description: Clockwork CodeScan, Bump and Release
 
 global:
   image: projectserum/build:v0.27.0
   environment:
     CARGO_TERM_COLOR: always
     WORKDIR: /workdir/nosana-ci/
+    ANCHOR_VERSION: v0.27.0
+    PUBLISH_PREFIX: clockwork
     RUST_BACKTRACE: full
+    GIT_USER_NAME: "Clockwork XYZ"
+    GIT_USER_EMAIL: team@clockwork.xyz
+    # CARGO_REGISTRY_TOKEN:
+    #   type: nosana/secret
+    #   endpoint: https://secrets.nosana.ci
+    #   value: CRATES_IO_TOKEN
 
   trigger:
     branch:
@@ -15,40 +23,24 @@ global:
 
 jobs:
 
-  - name: build and audit
+  - name: Release
     commands:
-      - echo Build with Cargo
-      - cd $WORKDIR
+      - echo Release Step
       - rustup default stable
-      - cargo check # Fail fast
-      - cargo build --locked
-      - ls -lah
-
-      - echo Installing BPG toolchain
-      - cd /root/.local/share/solana/install/active_release/bin/sdk/bpf
-      - rm -rf dependencies/*
-      - ./scripts/install.sh
-      - rustup default bpf
-      - cd $WORKDIR
-      - cargo update
-
-      - echo install Soteria Auditor
-      - sh -c "$(curl -k https://supercompiler.xyz/install)"
-      - export PATH=$PWD/soteria-linux-develop/bin/:$PATH
-
-      - echo Auditing programs/network
-      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      - cd programs/network
-      - soteria -analyzeAll .
       - cd $WORKDIR
 
-      - echo Auditing programs/thread
-      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      - cd programs/thread
-      - soteria -analyzeAll .
-      - cd $WORKDIR
+      - echo Build release
+      - cargo build --release --locked
+      - ls -lah target/release
 
-      - echo Auditing webhook
-      - export PATH=$PWD/soteria-linux-develop/bin:$PATH
-      - cd programs/webhook
-      - soteria -analyzeAll .
+      - echo Grant permission to scripts
+      - chmod +x ./scripts/ci/create-tarball.sh
+			- chmod +x ./scripts/build-all.sh
+
+      - echo Build release tarball
+      - ./scripts/build-all.sh clockwork_release
+      - ls -lah clockwork_release
+
+      # TODO uncomment when CARGO_REGISTRY_TOKEN is set in `global.enviroment`
+      # - cargo install publish-workspace
+      # - cargo +stable publish-workspace --allow-dirty --no-verify
